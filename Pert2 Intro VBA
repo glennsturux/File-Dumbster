@@ -1,0 +1,44 @@
+Public Class Form2
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        If txt_nama.Text = "" Or txt_kelas.Text = "" Or txt_npm.Text = "" Then
+            MessageBox.Show("Data Anda Tidak Lengkap", "Pesan", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Else
+            MessageBox.Show("Terima Kasih Data Anda Lengkap" + " " + txt_nama.Text + " " + "Dari Kelas : " + "" + txt_kelas.Text + " " + "Dengan NPM " + "" + txt_npm.Text, "Pesan", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        End If
+
+        If rb_laki.Checked Then
+            lb_laki.Items.Add(txt_nama.Text)
+            jml_laki.Text = lb_laki.Items.Count
+        ElseIf rb_perempuan.Checked Then
+            lb_perempuan.Items.Add(txt_nama.Text)
+            jml_perempuan.Text = lb_perempuan.Items.Count
+        End If
+    End Sub
+
+    Private Sub Label15_Click(sender As Object, e As EventArgs) Handles jml_perempuan.Click
+
+    End Sub
+
+    Private Sub cb_fakultas_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cb_fakultas.SelectedIndexChanged
+        cb_jurusan.Items.Clear()
+        If cb_fakultas.SelectedItem = "Teknologi Industri" Then
+            cb_jurusan.Text = ""
+            cb_jurusan.Items.Add("Teknik Informatika")
+            cb_jurusan.Items.Add("Teknik Mesin")
+            cb_jurusan.Items.Add("Teknik Elektro")
+        ElseIf cb_fakultas.SelectedItem = "Ilmu Komputer" Then
+            cb_jurusan.Text = ""
+            cb_jurusan.Items.Add("Sistem Informasi")
+            cb_jurusan.Items.Add("Sistem Komputer")
+            cb_jurusan.Items.Add("Manajemen Informatika")
+        ElseIf cb_fakultas.SelectedItem = "Ekonomi" Then
+            cb_fakultas.Text = ""
+            cb_jurusan.Items.Add("Manajemen")
+            cb_jurusan.Items.Add("Akuntansi")
+        End If
+    End Sub
+End Class
