@@ -1,0 +1,63 @@
+Public Class Form1
+    Dim arr As New ArrayList()
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub btnTambah_Click(sender As Object, e As EventArgs) Handles btnTambah.Click
+        Dim kata As String = txtKata.Text.Trim()
+        If kata = "" Then
+            MsgBox("Isi kata dahulu!", MsgBoxStyle.Exclamation, "Peringatan")
+        End If
+
+        For Each item As String In listKata.Items
+            If String.Equals(item, kata) Then
+                MsgBox("Kata sudah ada!")
+                Exit Sub
+            End If
+        Next
+
+        arr.Add(txtKata.Text)
+        listKata.Items.Add(txtKata.Text)
+        txtKata.Clear()
+
+    End Sub
+
+    Private Sub btnPanjang_Click(sender As Object, e As EventArgs) Handles btnPanjang.Click
+        If listKata.SelectedItems.Count > 0 Then
+            Dim total As Integer = 0
+            For Each item As String In listKata.SelectedItems
+                total += item.Length
+            Next
+            MsgBox("panjang kata : " & total)
+        Else
+            MsgBox("Pilih kata dahulu!")
+        End If
+
+    End Sub
+
+    Private Sub btnGabung_Click(sender As Object, e As EventArgs) Handles btnGabung.Click
+        If listKata.SelectedItems.Count > 1 Then
+            Dim hasil As String = String.Join(" ", listKata.SelectedItems.Cast(Of String)())
+            MsgBox("Hasil gabungan: " & hasil.Trim())
+        Else
+            MsgBox("Pilih minimal 2 kata dari ListBox!", MsgBoxStyle.Exclamation, "Peringatan")
+        End If
+
+
+
+    End Sub
+
+    Private Sub btnHapus_Click(sender As Object, e As EventArgs) Handles btnHapus.Click
+        If arr.Count > 0 Then
+            Dim kata As String = arr(arr.Count - 1).ToString()
+            arr.RemoveAt(arr.Count - 1)
+            listKata.Items.Remove(kata)
+            MsgBox("Berhasil dihapus!")
+        Else
+            MsgBox("Kosong!")
+        End If
+
+    End Sub
+End Class
