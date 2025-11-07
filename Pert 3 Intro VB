@@ -46,19 +46,18 @@ Public Class Form1
             MsgBox("Pilih minimal 2 kata dari ListBox!", MsgBoxStyle.Exclamation, "Peringatan")
         End If
 
-
-
     End Sub
 
     Private Sub btnHapus_Click(sender As Object, e As EventArgs) Handles btnHapus.Click
-        If arr.Count > 0 Then
-            Dim kata As String = arr(arr.Count - 1).ToString()
-            arr.RemoveAt(arr.Count - 1)
-            listKata.Items.Remove(kata)
-            MsgBox("Berhasil dihapus!")
+        If listKata.SelectedItems.Count > 0 Then
+            For Each item As String In listKata.SelectedItems.Cast(Of String).ToList()
+                listKata.Items.Remove(item)
+            Next
+            MsgBox("Kata Berhasi Dihapus!", MsgBoxStyle.Information, "Sukses")
         Else
-            MsgBox("Kosong!")
+            MsgBox("Tidak ada kata yang dipilih!", MsgBoxStyle.Exclamation, "Peringatan")
         End If
+
 
     End Sub
 End Class
