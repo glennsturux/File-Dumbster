@@ -12,8 +12,9 @@ Public Class Form1
         End If
 
         For Each item As String In listKata.Items
-            If String.Equals(item, kata) Then
+            If String.Equals(item, kata, StringComparison.OrdinalIgnoreCase) Then
                 MsgBox("Kata sudah ada!")
+                txtKata.Clear()
                 Exit Sub
             End If
         Next
