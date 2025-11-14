@@ -1,0 +1,84 @@
+Imports System.Data.OleDb
+Imports System.IO
+Public Class Form1
+    Dim Connection As OleDbConnection
+    Dim cmd As OleDbCommand
+    Dim Adapter As OleDbDataAdapter
+    Dim DtSet As DataSet
+    Dim connStr As String
+    Dim sql As String
+
+    Private Sub btnBaca_Click(sender As Object, e As EventArgs) Handles btnBaca.Click
+        Dim namaFile As String = txtFile.Text.Trim()
+        If namaFile = "" Then
+            MsgBox("Masukkan nama file terlebih dahulu.")
+            Exit Sub
+        End If
+
+        Dim desktopPath As String = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+        Dim fullPath As String = Path.Combine(desktopPath, namaFile)
+
+        If File.Exists(fullPath) Then
+            MsgBox("File ditemukan di desktop: " & fullPath)
+            connStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & fullPath & ";Extended Properties=Excel 8.0;"
+            Connection = New System.Data.OleDb.OleDbConnection(connStr)
+        Else
+            MsgBox("File tidak ditemukan di desktop.")
+        End If
+
+    End Sub
+
+    Private Sub btnView_Click(sender As Object, e As EventArgs) Handles btnView.Click
+        Try
+            Adapter = New OleDbDataAdapter("SELECT * FROM [Sheet1$]", Connection)
+            DtSet = New DataSet
+            Adapter.Fill(DtSet)
+            DataGridView1.DataSource = DtSet.Tables(0)
+            Connection.Close()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+    End Sub
+
+    Private Sub btnInsert_Click(sender As Object, e As EventArgs) Handles btnInsert.Click
+        Try
+            Connection.Open()
+            sql = "INSERT INTO [Sheet1$] (id, name) VALUES ('" & txtId.Text & "','" & txtName.Text & "')"
+            cmd = New OleDbCommand
+            cmd.Connection = Connection
+            cmd.CommandText = sql
+            cmd.ExecuteNonQuery()
+            MsgBox("Data Ditambahkan")
+            Connection.Close()
+            btnView.PerformClick()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+
+    End Sub
+
+    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
+        Try
+            Connection.Open()
+            sql = "UPDATE [Sheet1$] SET name = '" & txtName.Text & "' WHERE id = " & txtId.Text
+            cmd = New OleDbCommand
+            cmd.Connection = Connection
+            cmd.CommandText = sql
+            Dim rows = cmd.ExecuteNonQuery()
+            MsgBox("Data Diubah")
+            Connection.Close()
+            btnView.PerformClick()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            If Connection.State = ConnectionState.Open Then Connection.Close()
+        End Try
+    End Sub
+
+    Private Sub DataGridView1_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellClick
+        If e.RowIndex >= 0 Then
+            Dim row As DataGridViewRow = DataGridView1.Rows(e.RowIndex)
+            txtId.Text = row.Cells("id").Value.ToString()
+            txtName.Text = row.Cells("name").Value.ToString()
+        End If
+    End Sub
+End Class
