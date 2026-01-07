@@ -1,0 +1,2 @@
+connetionString = "Data Source=ServerName;Initial Catalog=DatabaseName;User ID=UserName;Password=Password"
+cnn = New SqlConnection(connetionString)
