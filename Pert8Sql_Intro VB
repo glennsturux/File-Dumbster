@@ -1,0 +1,20 @@
+create database pert8_intro
+
+use	pert8_intro
+
+create table tbl_mhs(
+npm nvarchar(8) primary key,
+nama nvarchar(50),
+kelas nvarchar(5),
+jurusan nvarchar(30)
+);
+
+INSERT INTO tbl_mhs VALUES
+(52419701, 'Andi Pratama', '2DB01', 'Informatika'),
+(52419702, 'Budi Santoso', '2KA01', 'Sistem Informasi'),
+(52419703, 'Citra Lestari', '2IA01', 'Teknologi Informasi'),
+(52419704, 'Dwi Kurniawan', '3DB02', 'Informatika'),
+(52419705, 'Eka Ramadhani', '3KA02', 'Sistem Informasi');
+
+select*from tbl_mhs
+
