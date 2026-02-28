@@ -1,0 +1,78 @@
+--1
+CREATE DATABASE Pert5_NPM;
+USE Pert5_NPM;
+
+--2
+-- Membuat login untuk Staff
+CREATE LOGIN Staff
+WITH PASSWORD = 'Staff123';
+
+-- Membuat login untuk Asisten
+CREATE LOGIN Asisten
+WITH PASSWORD = 'Asisten123';
+
+-- Membuat login untuk Praktikan
+CREATE LOGIN Praktikan
+WITH PASSWORD = 'Praktikan123';
+
+--3
+CREATE USER Staff FOR LOGIN Staff;
+CREATE USER Asisten FOR LOGIN Asisten;
+CREATE USER Praktikan FOR LOGIN Praktikan;
+
+--4
+CREATE ROLE Staff_Role;
+ALTER ROLE Staff_Role ADD MEMBER Staff;
+
+--5
+GRANT CREATE TABLE TO Staff_Role; --memberi hak akses ke staff
+GRANT SELECT ON SCHEMA::dbo TO Staff_Role;
+GRANT INSERT ON SCHEMA::dbo TO Staff_Role;
+GRANT UPDATE ON SCHEMA::dbo TO Staff_Role;
+GRANT DELETE ON SCHEMA::dbo TO Staff_Role;
+
+--6
+GRANT SELECT ON SCHEMA::dbo TO Praktikan; --melihat data pada semua tabel
+
+--login ke user staff dulu
+--atur user mapping
+--7
+USE Pert5_NPM;
+CREATE TABLE data_praktikan(
+	npm		CHAR(8)			PRIMARY KEY NOT NULL,
+	nama	VARCHAR(50)		NOT NULL,
+	jurusan	VARCHAR(30)		NOT NULL,
+	kelas	VARCHAR(5)		NOT NULL,
+	no_hp	VARCHAR(13)		NOT NULL
+);
+
+EXEC sp_columns data_praktikan;
+
+--tes staff
+SELECT * FROM data_praktikan;
+UPDATE data_praktikan SET nama = 'Muhammad Nasir' WHERE npm = '10121873'
+INSERT INTO data_praktikan VALUES
+('10121873', 'Nasir', 'Sistem Informasi', '4KA15', '085888426904');
+
+
+--login ke user praktikan
+--8 
+--atur user mapping
+USE Pert5_NPM;
+INSERT INTO db_owner.data_praktikan VALUES
+('10121872', 'Naxr', 'Sistem Informasi', '15KA4', '085888426904');
+
+--tes
+SELECT * FROM db_owner.data_praktikan;
+
+
+
+
+--Melihat session dengan id berapa saja yang aktif untuk login DINA_NPM
+SELECT session_id
+FROM sys.dm_exec_sessions
+WHERE login_name = 'DINA_NPM';
+--Menghentikan session yang masih aktif pada login DINA_NPM
+KILL 63; KILL 65;
+--Menghapus login DINA_NPM
+DROP LOGIN DINA_NPM;
