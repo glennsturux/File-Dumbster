@@ -26,10 +26,8 @@ ALTER ROLE Staff_Role ADD MEMBER Staff;
 
 --5
 GRANT CREATE TABLE TO Staff_Role; --memberi hak akses ke staff
-GRANT SELECT ON SCHEMA::dbo TO Staff_Role;
-GRANT INSERT ON SCHEMA::dbo TO Staff_Role;
-GRANT UPDATE ON SCHEMA::dbo TO Staff_Role;
-GRANT DELETE ON SCHEMA::dbo TO Staff_Role;
+GRANT ALTER, SELECT, INSERT, UPDATE, DELETE ON SCHEMA::dbo TO Staff_Role;
+
 
 --6
 GRANT SELECT ON SCHEMA::dbo TO Praktikan; --melihat data pada semua tabel
